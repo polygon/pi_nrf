@@ -74,7 +74,6 @@ class NrfPtp:
     if not(0 <= self.nrfconf.channel <= 127):
       raise ValueError('Channel must be between 0 and 127')
     self.spi.xfer2([0x25, self.nrfconf.channel])
-    print 'Channel %i' % self.nrfconf.channel
 
     if self.nrfconf.datarate == 250000:
       dr = 4
@@ -95,12 +94,9 @@ class NrfPtp:
     else:
       raise ValueError('TX power must be -18, -12, -6 or -0dBm')
     self.spi.xfer2([0x26, (dr << 3) + pwr])
-    print 'Pwrsetting %i' % ((dr << 3) + pwr)
 
     self.spi.xfer2([0x2B] + self.nrfconf.rx_addr)
-    print self.nrfconf.rx_addr
 
     if not(0 <= self.nrfconf.data_len <= 32):
       raise ValueError('Data length must be between 0 and 32')
     self.spi.xfer2([0x32, self.nrfconf.data_len])
-    print 'datalen %i' % self.nrfconf.data_len
